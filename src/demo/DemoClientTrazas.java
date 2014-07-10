@@ -4,10 +4,10 @@
  */
 package demo;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
@@ -81,9 +81,18 @@ public class DemoClientTrazas {
 				System.exit (0);
 			}*/
 
-			String torrentFilename = "E:/proyectos/torrent/Esto-no-es-una-cita-DVDRip(EliteTorrent).torrent";
-			File torrentFile = new File (torrentFilename);
+			//String torrentFilename = "E:/proyectos/torrent/Esto-no-es-una-cita-DVDRip(EliteTorrent).torrent";
+			File torrentFile = null;//new File (torrentFilename);
 
+			URL url = DemoClientTrazas.class.getResource("Esto-no-es-una-cita-DVDRip(EliteTorrent).torrent");
+			try {
+				torrentFile = new File(url.toURI());
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				throw new RuntimeException("Error al localizar el fichero torrent en el classpath");
+			}
+			
 			File metadataDirectory = new File (new File (System.getProperty ("user.home")), ".democlient" + File.separator + "metadata");
 			try {
 				controller = new TorrentSetController (metadataDirectory);
